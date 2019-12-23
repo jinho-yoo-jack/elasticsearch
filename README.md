@@ -1,11 +1,23 @@
 # ES6.5
 Study and Job ES6.5(Elasticsearch 6.5)
+- ES의 구조
+Index(Database)
+   |-- Type(Table)
+         |-- documents(row)
+                |-- Fields
+                     |-- Fields
+                |-- Fields
+         |-- documents(row)
+         |-- documents(row)
+
 - ES는 RESTful 형식을 사용한다.
 
-# Index(색인)
+# Index(색인, Indices API)
 ## 데이터를 저장할 테이블의 구조 정의
 - 정의 : Create Index
-- 형식 : PUT _INDEX_NAME/_TYPE_NAME
+- 형식 : 
+        ```C
+        PUT _INDEX_NAME/_TYPE_NAME
         {
           "mappings" : {
             "TYPE_NAME" : {
@@ -23,7 +35,8 @@ Study and Job ES6.5(Elasticsearch 6.5)
                 ...
               }
             }
-        }    
+        }
+        ```
             
 ```C
 PUT order
