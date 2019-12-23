@@ -2,13 +2,13 @@
 Study and Job ES6.5(Elasticsearch 6.5)
 - ES의 구조
 Index(Database)
-   |-- Type(Table)
-         |-- documents(row)
-                |-- Fields
-                     |-- Fields
-                |-- Fields
-         |-- documents(row)
-         |-- documents(row)
+   |-- Type(Table)<br>
+         |-- documents(row)<br>
+                |-- Fields<br>
+                     |-- Fields<br>
+                |-- Fields<br>
+         |-- documents(row)<br>
+         |-- documents(row)<br>
 
 - ES는 RESTful 형식을 사용한다.
 
