@@ -89,6 +89,22 @@ PUT order
 # Aggregations(통계)
 ## SQL의 GROUP BY 와 같이 데이터를 그룹화하고 통계(Agg)를 얻는 기능.
 - ES는 **검색과 동시에 집계(통계) 결과**를 반환할 수 있다. **집계만 표시하려면 size: 0**
+## 구조
+- ㅇㅇㅇ
+```
+"aggregations":{
+    "<aggregation_name>":{
+        "<aggregation_type>":{
+            "<aggregation_body>"
+        }
+        [,"meta":{[<meta_data_body>]}]?
+        [,"aggregations":{[<sub_aggregation>]+}]?
+    }
+    ,[,"<aggregation_name_2>:{...}"]*
+}
+```
+
+
 ## 데이터 집계 타입
 - 데이터 집계 타입은 다음과 같이 4가지가 존재합니다.
 1. 버킷 집계(Bucket Aggregation)
