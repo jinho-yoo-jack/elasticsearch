@@ -16,7 +16,7 @@ Index(Database)<br>
 ## 데이터를 저장할 테이블의 구조 정의
 - 정의 : Create Index
 - 형식 : 
-        ```
+        ```C
         PUT _INDEX_NAME/_TYPE_NAME
         {
           "mappings" : {
@@ -85,6 +85,7 @@ PUT order
 }
 ```
 # Mapping(맴핑)
+# Template(템플릿)
 # Search(검색)
 # Aggregations(통계)
 ## SQL의 GROUP BY 와 같이 데이터를 그룹화하고 통계(Agg)를 얻는 기능.
