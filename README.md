@@ -3,7 +3,7 @@ Study and Job ES6.5(Elasticsearch 6.5)
 - ES의 구조
 Index(Database)<br>
 |-- Type(Table)<br>
-    |--documents(row)<br>
+    |-- documents(row)<br>
        |--Fields<br>
        |-- Fields<br>
        |-- Fields<br>
@@ -110,7 +110,6 @@ PUT order
 - 데이터 집계 타입은 다음과 같이 4가지가 존재합니다.
 1. 버킷 집계(Bucket Aggregation)
 문서의 필드 기준으로 버킷을 집계합니다.
-
 2. 매트릭 집계(Metric Aggregation)
 문서에서 추출된 값을 이용하여 합계, 최대값, 최소값, 평균값 등을 계산합니다.
 
