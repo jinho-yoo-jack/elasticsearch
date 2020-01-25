@@ -2,14 +2,16 @@
 Study and Job ES6.5(Elasticsearch 6.5)
 - ES의 구조
 ```sh
-Index(Database)<br>
-| Type(Table)<br>
-   |-- documents(row)<br>
-      |-- Fields<br>
-      |-- Fields<br>
-      |-- Fields<br>
-   |-- documents(row)<br>
-   |-- documents(row)<br>
+Index(Database)
+└─ Type(Table)
+   ├─ documents(row)
+   │   ├─ Fields_A
+   │   │  ├─ Fields_A.analyzer
+   │   │  └─ Fields_A.analyzer
+   │   ├─ Fields_B
+   │   ├─ Fields_C
+   ├─ documents(row)
+   ├─ documents(row)
 ```
 - ES는 RESTful 형식을 사용한다.
 
