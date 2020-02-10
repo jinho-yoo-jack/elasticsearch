@@ -19,7 +19,7 @@ Index(Database)
 ## 데이터를 저장할 테이블의 구조 정의
 - 정의 : Create Index
 - 형식 : 
-        ```C
+        ```sh
         PUT _INDEX_NAME/_TYPE_NAME
         {
           "mappings" : {
@@ -39,9 +39,10 @@ Index(Database)
               }
             }
         }
+
         ```
             
-```C
+```sh
 PUT order
 {
     "mappings": {
