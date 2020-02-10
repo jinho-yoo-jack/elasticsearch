@@ -17,8 +17,7 @@ Index(Database)
 
 # Mapping(맴핑)
 ## 데이터를 저장할 테이블의 구조 정의
-- 정의 : Create Mappging, 엘라스틱서치는 schemaLess 구조이다. 그래서 Mapping 설정 색인을 하더라도, 자동으로 shema가 생성된다.<br>
-        하지만, 그렇게 되면 실제 운영환경에서는 색인이 안되는 경우가 발생할 수 도 있기 때문에 꼭! Mapping 정의를 한 이후에 색인을 해야한다.
+- 정의 : Create Mappging, 엘라스틱서치는 schemaLess 구조이다. 그래서 Mapping 설정 색인을 하더라도, 자동으로 shema가 생성된다. 하지만, 그렇게 되면 실제 운영환경에서는 색인이 안되는 경우가 발생할 수 도 있기 때문에 꼭! Mapping 정의를 한 이후에 색인을 해야한다.
 - 형식 : 
 ```sh
 PUT _INDEX_NAME/_TYPE_NAME
@@ -98,7 +97,7 @@ PUT order
 2. text 
 - 정의 : 색인 시 지정된 분석기가 컬럼의 데이터를 문자열 데이터로 인식하고 이를 분석 후 토큰화하여 색인한다.
 - 특징 : **전문 검색이 가능하며, 전체 텍스트가 토큰화되어 생성되면 특정 단어를 검색하는 것이 가능해진다.**
->>> 만약 검색뿐 아니라, 정렬(Sorting)이나 집계(Aggregation)를 연산을 사용해야 할 경우 에는 `Multi Field`로 정의해주면된다.
+> 만약 검색뿐 아니라, 정렬(Sorting)이나 집계(Aggregation)를 연산을 사용해야 할 경우 에는 `Multi Field`로 정의해주면된다.
 - 형식 : [Multi Field Mapping]
 ```sh
 PUT movie_search/_mapping/_doc
@@ -146,14 +145,45 @@ PUT movie_search_datatype/_doc/1
 }    
 ```
 # Analyzer(분석기)
-- 개요 
+- 개요<br>
 엘라스틱서치는 텍스트기반의 검색엔진이다. 그래서 텍스트를 처리하기 위해 기본적으로 분석기를 사용한다. 그래서 생각대로 검색을 한다면 올바른 결과가 나오지 않는다.<br>
 엘라스틱서치는 문서를 색인하기 전에 해당 문서의 필드 타입이 무엇인지 확인하고, 텍스트 타입이면 분석기를 이용해 이를 분석한다. 텍스트가 분석되면 개별 텀(Term)<br>
 으로 나뉘어 형태소 분석된다. 해당 형태소는 특정 원칙에 의해 필터링되어 단어가 `삭제`되거나 `추가`,`수정`되고 최종적으로 역색인(Inverted Index)된다.
 ## 분석기 구조
->>> 1. [`Character Filter`]문장을 특정한 규칙에 의해 수정한다.<br>
-    2. [`Tokenizer Filter`]수정한 문장을 개별 토큰(Token)으로 분리한다.<br>
-    3. [`Token Filter`]개별 토큰을 특정한 규칙에 의해 변경한다.
+1. [`Character Filter`]문장을 특정한 규칙에 의해 수정한다.<br>
+- 문장을 분석하기 전에 특정한 단어를 변경하거나, HTML같은 태그를 제거하는 역할을 하는 필터. replaceAll함수처럼 패턴으로 텍스트를 변경하거나, 사용자가 정의한 필터를 적용할 수 있다.
+2. [`Tokenizer Filter`]수정한 문장을 개별 토큰(Token)으로 분리한다.<br>
+- 분석기를 사용할 때 하나만 사용할 수 있으며, 텍스트를 어떻게 나눌 것인지를 정의한다.
+> Tonkenizer가 `형태소분석`하는 단계이다.
+3. [`Token Filter`]개별 토큰을 특정한 규칙에 의해 변경한다.
+- 토큰화된 단어를 하나씩 필터링해서 사용자가 원하는 토큰으로 변환한다. 예를 들어, 불필요한 단어를 제거하거나 동의어 사전을 만들어 단어를 추가하거나, 영문 단어를 소문자로 변환하는 등의 작업을 수행한다.**여러 단계가 순차적으로 이뤄지며 순서를 어떻게 지정하느냐에 따라 검색의 질이 달라질 수 있다.**
+4. 색인(Inverted Indexing)
+## 분석기 설정
+```sh
+PUT /movie_analyzer
+{
+   "settings" : {
+      "index" : {
+         "number_of_shard" : 5,
+         "number_of_replicas" : 1
+      }
+   },
+   "analysis" : {
+      "analyzer" : {
+         "custom_movie_analzyer" : {
+            "type" : "custom",
+            "char_filter" : [
+               "html_strip"
+            ],
+            "tokenizer" : "standard",
+            "filter" : [
+               "lowercase"
+            ]
+         }
+       }
+     }
+}
+```
 # Template(템플릿)
 # Search(검색)
 # Aggregations(통계)
