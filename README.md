@@ -98,12 +98,62 @@ PUT order
 2. text 
 - 정의 : 색인 시 지정된 분석기가 컬럼의 데이터를 문자열 데이터로 인식하고 이를 분석 후 토큰화하여 색인한다.
 - 특징 : **전문 검색이 가능하며, 전체 텍스트가 토큰화되어 생성되면 특정 단어를 검색하는 것이 가능해진다.**
->>> 만약 검색뿐 아니라, 정렬(Sorting)이나 집계(Aggregation)를 연산을 사용해야 할 경우 에는 **`Multi Field`***로 정의해주면된다.
+>>> 만약 검색뿐 아니라, 정렬(Sorting)이나 집계(Aggregation)를 연산을 사용해야 할 경우 에는 `Multi Field`로 정의해주면된다.
+- 형식 : [Multi Field Mapping]
+```sh
+PUT movie_search/_mapping/_doc
+{
+   "properties" : {
+      "movieComment" : {
+         "type" : "text",
+         "fields" : {
+            "movieComment_Keyword" : {
+               "type" : keyword"
+            }
+         },
+         "analyzer" : "kobrick_search",
+         "search_analyzer" : "kobrick"
+      }
+}
+```
 3. Array
+- 정의 : 하나의 필드에 여러 개의 값이 매핑되는 경우 사용
+- 형식 : 
+```sh
+PUT movie_search_datatype/_doc/1
+{
+   "title" : "해리포토와 죽음을 먹는 성물 part1",
+   "lang" : ["ko", "en","ch","jp]
+}
+```
 4. Numeric
 5. Date
 6. Object
-
+- 정의 : JSON 포맷처럼 내부 객체를 계층적으로 포함할 수 있다.
+- 형식 :
+```sh
+PUT movie_search_datatype/_doc/1
+{
+   "properties" : {
+      "companies" : {
+         "properties : {
+              "companyName : {
+                  "type" : "text"
+              }
+          }
+      }
+    }
+}    
+```
+# Analyzer(분석기)
+- 개요 
+엘라스틱서치는 텍스트기반의 검색엔진이다. 그래서 텍스트를 처리하기 위해 기본적으로 분석기를 사용한다. 그래서 생각대로 검색을 한다면 올바른 결과가 나오지 않는다.<br>
+엘라스틱서치는 문서를 색인하기 전에 해당 문서의 필드 타입이 무엇인지 확인하고, 텍스트 타입이면 분석기를 이용해 이를 분석한다. 텍스트가 분석되면 개별 텀(Term)<br>
+으로 나뉘어 형태소 분석된다. 해당 형태소는 특정 원칙에 의해 필터링되어 단어가 `삭제`되거나 `추가`,`수정`되고 최종적으로 역색인(Inverted Index)된다.
+## 분석기 구조
+>>> 1. [`Character Filter`]문장을 특정한 규칙에 의해 수정한다.<br>
+    2. [`Tokenizer Filter`]수정한 문장을 개별 토큰(Token)으로 분리한다.<br>
+    3. [`Token Filter`]개별 토큰을 특정한 규칙에 의해 변경한다.
 # Template(템플릿)
 # Search(검색)
 # Aggregations(통계)
